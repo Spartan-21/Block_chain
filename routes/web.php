@@ -28,12 +28,10 @@ Route::middleware('auth')->prefix('auth')->group(function () {
 
     Route::get('/permissions', [App\Http\Controllers\Backend\AccessControl\PermissionsController::class, 'index'])->name('permissions')->middleware('permission:view.permissions');
 
-
     Route::prefix('roles')->group(function () {
 
         Route::get('/create', [App\Http\Controllers\Backend\AccessControl\RolesController::class, 'create'])->name('roles.create')->middleware('permission:create.roles');
 
-        
         Route::prefix('{role_id}')->group(function () {
     
             Route::get('/edit', [App\Http\Controllers\Backend\AccessControl\RolesController::class, 'edit'])->name('roles.edit')->middleware('permission:edit.roles');
@@ -50,7 +48,7 @@ Route::middleware('auth')->prefix('auth')->group(function () {
         
         Route::prefix('{user_id}')->group(function () {
 
-        Route::get('/assign-roles', [App\Http\Controllers\Backend\AccessControl\UsersController::class, 'assign_roles'])->name('users.assign.roles')->middleware('permission:assign.roles.to.users');
+            Route::get('/assign-roles', [App\Http\Controllers\Backend\AccessControl\UsersController::class, 'assign_roles'])->name('users.assign.roles')->middleware('permission:assign.roles.to.users');
 
             Route::get('/', [App\Http\Controllers\Backend\AccessControl\UsersController::class, 'view'])->name('users.view')->middleware('permission:view.users');
 
@@ -104,6 +102,13 @@ Route::middleware('guest')->group(function () {
 
 });
 
+// Default frontend landing page
 Route::get('/', function () {
     return view('frontend.home');
 })->name('home');
+
+
+// ✅ New custom home page (Gamma embed version)
+Route::get('/homepage', function () {
+    return view('home'); // Points to resources/views/home.blade.php
+})->name('custom.home');
