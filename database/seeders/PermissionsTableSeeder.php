@@ -19,6 +19,12 @@ class PermissionsTableSeeder extends Seeder
          */
         $Permissionitems = [
             [
+                'name'        => 'Can View processing',
+                'slug'        => 'view.processing',
+                'description' => 'Can view processing',
+                'model'       => 'Permission',
+            ],
+            [
                 'name'        => 'Can View Farms',
                 'slug'        => 'view.farms',
                 'description' => 'Can view farms',
@@ -40,6 +46,30 @@ class PermissionsTableSeeder extends Seeder
                 'name'        => 'Can Delete Farms',
                 'slug'        => 'delete.farms',
                 'description' => 'Can delete farms',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can View batches',
+                'slug'        => 'view.batches',
+                'description' => 'Can view batches',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Create batches',
+                'slug'        => 'create.batches',
+                'description' => 'Can create new batches',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Edit batches',
+                'slug'        => 'edit.batches',
+                'description' => 'Can edit batches',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Delete batches',
+                'slug'        => 'delete.batches',
+                'description' => 'Can delete batches',
                 'model'       => 'Permission',
             ],
             [

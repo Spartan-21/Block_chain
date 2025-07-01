@@ -22,6 +22,13 @@ class ConnectRelationshipsSeeder extends Seeder
             'create.farms',
             'edit.farms',
             'delete.farms',
+            'view.batches',
+            'create.batches',
+            'edit.batches',
+            'delete.batches',
+        ];
+        $processorPermissions = [
+            'view.processing',
         ];
 
         /**
@@ -29,10 +36,14 @@ class ConnectRelationshipsSeeder extends Seeder
          */
         $roleAdmin = config('roles.models.role')::where('slug', '=', 'admin')->first();
         $roleFarmer = config('roles.models.role')::where('slug', '=', 'farmer')->first();
+        $roleProcessor = config('roles.models.role')::where('slug', '=', 'processor')->first();
         foreach ($permissions as $permission) {
             $roleAdmin->attachPermission($permission);
             if (in_array($permission->slug, $farmerPermissions)) {
                 $roleFarmer->attachPermission($permission);
+            }
+            if (in_array($permission->slug, $processorPermissions)) {
+                $roleProcessor->attachPermission($permission);
             }
         }
     }

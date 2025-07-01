@@ -46,10 +46,13 @@
                         <td>{{ $farm->farm_size }}</td>
                         <td>{{ $farm->coordinates }}</td>
                         <td>
+                            <a href="{{ route('farms.view', ['farm_id' => $farm->id]) }}" class="btn btn-info btn-sm">View</a>
                             @permission('edit.farms')
                             <a href="{{ route('farms.edit', ['farm_id' => $farm->id]) }}" class="btn btn-primary btn-sm">Edit</a>
                             @endpermission
-                            <a href="{{ route('farms.edit', ['farm_id' => $farm->id]) }}" class="btn btn-info btn-sm">Batches</a>
+                            @permission('view.batches')
+                            <a href="{{ route('batches', ['farm_id' => $farm->id]) }}" class="btn btn-info btn-sm">Batches</a>
+                            @endpermission
                             @permission('delete.farms')
                             <form action="{{ route('farms.destroy', ['farm_id' => $farm->id]) }}" method="POST" style="display:inline;">
                                 @csrf

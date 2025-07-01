@@ -23,6 +23,14 @@
                     </a>
                 </li>
                 @endpermission
+                @permission('view.processing')
+                <li class="nav-item">
+                    <a href="{{ route('farms') }}" class="nav-link {{(request()->routeIs('farms') || request()->Is('auth/farms/*')) ? 'active' : ''}}">
+                        <i class="nav-icon fas fas fa-tractor"></i>
+                        <p>Processing</p>
+                    </a>
+                </li>
+                @endpermission
                 @permission('view.roles|view.permissions|view.users')
                 <li class="nav-header">ACCESS CONTROL</li>
                 @permission('view.roles')

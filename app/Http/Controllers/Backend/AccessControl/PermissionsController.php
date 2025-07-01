@@ -9,6 +9,7 @@ class PermissionsController extends Controller
 {
     public function index()
     {
-        return view('backend.access_control.permissions.index');
+        $permissions = config('roles.models.permission')::with(['roles', 'users'])->get();
+        return view('backend.access_control.permissions.index', compact('permissions'));
     }
 }

@@ -1,0 +1,72 @@
+/* ✅ Fonts */
+body,
+.main-header,
+.main-sidebar,
+.content-wrapper,
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+/* ✅ Text color utility */
+.text-gold {
+    color: #d4af37 !important;
+}
+
+/* ✅ Headings */
+h1, h2, h3 {
+    color: #d4af37 !important;
+}
+
+/* ✅ Overall background and text */
+body,
+.wrapper,
+.main-header,
+.main-sidebar {
+    background-color: #000 !important;
+    color: #fff;
+}
+
+/* ✅ Navbar */
+.main-header.navbar {
+    background-color: #000 !important;
+    border-bottom: 2px solid #d4af37;
+}
+
+/* ✅ Sidebar */
+.main-sidebar {
+    background-color: #111 !important;
+}
+
+.sidebar a {
+    color: #d4af37 !important;
+}
+
+.sidebar a:hover {
+    background-color: #222 !important;
+    color: #fff !important;
+}
+
+/* ✅ Active sidebar item */
+.nav-sidebar > .nav-item > .nav-link.active {
+    background-color: #d4af37 !important;
+    color: #000 !important;
+}
+
+/* ✅ Cards */
+.card-header {
+    background-color: #000;
+    color: #d4af37;
+    border-bottom: 1px solid #d4af37;
+}
+
+/* ✅ Buttons */
+.btn-primary {
+    background-color: #000;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+}
+
+.btn-primary:hover {
+    background-color: #d4af37;
+    color: #000;
+}
