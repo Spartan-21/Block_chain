@@ -52,6 +52,16 @@
                         </div>
                     </div>
                 </div>
+                 <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" name="metamask_address" class="form-control" value="{{ old('metamask_address') }}" placeholder="Your Metamask Address" required="" autofocus autocomplete="off">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="input-group">
                         <input type="password" name="password" class="form-control" placeholder="Password" required autocomplete="off">

@@ -10,14 +10,6 @@ use App\Http\Controllers\Controller;
 
 class ProcessingController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('permission:view.processing|show.processing', ['only' => ['index', 'show']]);
-        $this->middleware('permission:create.processing', ['only' => ['create', 'store']]);
-        $this->middleware('permission:edit.processing', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:delete.processing', ['only' => ['destroy']]);
-    }
 
     public function index()
     {
@@ -27,7 +19,7 @@ class ProcessingController extends Controller
 
     public function create()
     {
-        $batches = Batch::where('status', 'ready_for_processing')->get();
+        $batches = Batch::query()->get();
         return view('backend.processings.create', compact('batches'));
     }
 

@@ -22,7 +22,6 @@ class ConnectRelationshipsSeeder extends Seeder
                 'create.batches',
                 'edit.batches',
                 'delete.batches',
-                'view.processing',
             ],
 
             'processor' => [
@@ -32,12 +31,7 @@ class ConnectRelationshipsSeeder extends Seeder
                 'show.processing',
             ],
 
-            'quality.control' => [   // dot slug
-                'view.processing',
-                'show.processing',
-                'edit.processing',
-
-                // Quality control specific permissions:
+            'quality.control' => [   
                 'view.quality.control',
                 'create.quality.control',
                 'edit.quality.control',
@@ -51,11 +45,9 @@ class ConnectRelationshipsSeeder extends Seeder
                 'create.distribution',
                 'edit.distribution',
                 'delete.distribution',
-                'view.processing',
-                'show.processing',
             ],
         ];
-
+        $roleAdmin = config('roles.models.role')::where('slug', '=', 'admin')->first();
         foreach ($rolePermissions as $roleSlug => $permissionSlugs) {
             $role = config('roles.models.role')::where('slug', $roleSlug)->first();
 

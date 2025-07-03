@@ -83,35 +83,35 @@ Route::middleware('auth')->prefix('auth')->group(function () {
     Route::prefix('processing')->group(function () {
 
         Route::get('/create', [App\Http\Controllers\Backend\ProcessingController::class, 'create'])
-            ->name('processing.create')
+            ->name('processings.create')
             ->middleware('permission:create.processing');
 
         Route::post('/create', [App\Http\Controllers\Backend\ProcessingController::class, 'store'])
-            ->name('processing.store')
+            ->name('processings.store')
             ->middleware('permission:create.processing');
 
         Route::prefix('{processing_id}')->group(function () {
 
             Route::put('/update', [App\Http\Controllers\Backend\ProcessingController::class, 'update'])
-                ->name('processing.update')
+                ->name('processings.update')
                 ->middleware('permission:edit.processing');
 
             Route::get('/edit', [App\Http\Controllers\Backend\ProcessingController::class, 'edit'])
-                ->name('processing.edit')
+                ->name('processings.edit')
                 ->middleware('permission:edit.processing');
 
             Route::delete('/', [App\Http\Controllers\Backend\ProcessingController::class, 'destroy'])
-                ->name('processing.destroy')
+                ->name('processings.destroy')
                 ->middleware('permission:delete.processing');
 
             Route::get('/', [App\Http\Controllers\Backend\ProcessingController::class, 'show'])
-                ->name('processing.view')
+                ->name('processings.view')
                 ->middleware('permission:view.processing');
 
         });
 
         Route::get('/', [App\Http\Controllers\Backend\ProcessingController::class, 'index'])
-            ->name('processing.index')
+            ->name('processings.index')
             ->middleware('permission:view.processing');
 
     });
@@ -317,7 +317,8 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
         ->name('password.store');
-
+    Route::post('/farms/blockchain', [FarmController::class, 'storeToBlockchain'])->name('farms.blockchain.store');
+    Route::get('/farms/blockchain', [FarmController::class, 'getBlockchainData'])->name('farms.blockchain.data');
 });
 
 // 🌐 Default frontend landing page

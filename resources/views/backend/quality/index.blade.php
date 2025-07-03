@@ -1,14 +1,12 @@
-@extends('layouts.adminlte')
+@extends('backend.partials.parent')
 
-@section('title', 'Quality Control List')
+@section('page_title', 'Quality Control Records')
 
-@section('content_header')
-    <h1>Quality Control Records</h1>
+@section('page_content')
+@include('backend.partials.flash-messages')
     <a href="{{ route('quality.create') }}" class="btn btn-primary mb-3">Add New Quality Test</a>
-@endsection
 
-@section('content')
-    @if($qualityRecords->isEmpty())
+    @if($qualityTests->isEmpty())
         <p>No quality control records found.</p>
     @else
     <table class="table table-bordered table-hover">
@@ -23,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($qualityRecords as $record)
+            @foreach($qualityTests as $record)
             <tr>
                 <td>{{ $record->id }}</td>
                 <td>{{ $record->batch_id }}</td>

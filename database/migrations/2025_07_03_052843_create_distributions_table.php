@@ -11,11 +11,11 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('batch_id');
             $table->unsignedBigInteger('distributor_id');
-            $table->date('distribution_date');
-            $table->float('quantity');
-            $table->text('notes')->nullable();
-            $table->string('status')->default('pending');
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->string('destination');
+            $table->date('expected_delivery_date');
+            $table->string('transport_method');
+            $table->string('tracking_number');
+            $table->string('status')->default('successfull');
             $table->timestamps();
             $table->softDeletes();
 

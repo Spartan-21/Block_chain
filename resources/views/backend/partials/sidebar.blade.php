@@ -27,7 +27,7 @@
 
                 @permission('view.processing')
                 <li class="nav-item">
-                    <a href="{{ route('processing.index') }}" class="nav-link {{ (request()->routeIs('processing.index') || request()->is('auth/processing/*')) ? 'active' : '' }}">
+                    <a href="{{ route('processings.index') }}" class="nav-link {{ (request()->routeIs('processing.index') || request()->is('auth/processing/*')) ? 'active' : '' }}">
                         <i class="nav-icon fas fa-industry"></i>
                         <p>Processing</p>
                     </a>
@@ -39,6 +39,24 @@
                     <a href="{{ route('distributions') }}" class="nav-link {{ (request()->routeIs('distributions') || request()->is('auth/distributions/*')) ? 'active' : '' }}">
                         <i class="nav-icon fas fa-shipping-fast"></i>
                         <p>Distribution</p>
+                    </a>
+                </li>
+                @endpermission
+
+                @permission('view.quality.control')
+                <li class="nav-item">
+                    <a href="{{ route('quality') }}" class="nav-link {{ (request()->routeIs('quality') || request()->is('auth/quality/*')) ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shipping-fast"></i>
+                        <p>Quality Testing</p>
+                    </a>
+                </li>
+                @endpermission
+
+                @permission('view.distribution')
+                <li class="nav-item">
+                    <a href="{{ route('distributions') }}" class="nav-link {{ (request()->routeIs('distributions') || request()->is('auth/distributions/*')) ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shipping-fast"></i>
+                        <p>End User</p>
                     </a>
                 </li>
                 @endpermission

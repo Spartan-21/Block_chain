@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Batch extends Model
 {
-    use Uuids;
-
     /**
      * The Primary Key Attribute.
      *
@@ -22,7 +19,7 @@ class Batch extends Model
      *
      * @var bool
      */
-    public $incrementing = false;
+    public $incrementing = true;
 
     /**
      * The attributes that are mass assignable.

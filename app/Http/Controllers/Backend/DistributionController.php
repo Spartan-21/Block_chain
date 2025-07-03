@@ -13,8 +13,6 @@ class DistributionController extends Controller
 {
     public function index()
     {
-        // Permission check can be done via middleware or manually
-        $this->authorize('view.distributions');
 
         $distributions = Distribution::all();
         return view('backend.distribution.index', compact('distributions'));
@@ -22,16 +20,12 @@ class DistributionController extends Controller
 
     public function create()
     {
-        $this->authorize('create.distributions');
-
         $batches = Batch::all();
         return view('backend.distribution.create', compact('batches'));
     }
 
     public function store(Request $request)
     {
-        $this->authorize('create.distributions');
-
         $validated = $request->validate([
             'batch_id' => 'required|exists:batches,id',
             'distributor_id' => 'nullable|integer',
@@ -48,11 +42,12 @@ class DistributionController extends Controller
 
         $payload = array_merge($validated, ['metamask_address' => $metamask_address]);
 
-        $response = Http::post('http://localhost:3000/distribute-batch', $payload);
+        $response = Http::post('http://localhost:3000/shipments', $payload);
 
         if ($response->successful()) {
+            $validated['distributor_id'] = Auth::user()->id;
             Distribution::create($validated);
-            return redirect()->route('distributions.index')->with('success', 'Distribution saved and sent to blockchain!');
+            return redirect()->route('distributions')->with('success', 'Distribution saved and sent to blockchain!');
         } else {
             return back()->with('error', 'Blockchain error: ' . $response->json('error'));
         }
@@ -60,16 +55,12 @@ class DistributionController extends Controller
 
     public function show($distribution_id)
     {
-        $this->authorize('view.distributions');
-
         $distribution = Distribution::findOrFail($distribution_id);
         return view('backend.distribution.show', compact('distribution'));
     }
 
     public function edit($distribution_id)
     {
-        $this->authorize('edit.distributions');
-
         $distribution = Distribution::findOrFail($distribution_id);
         $batches = Batch::all();
 
@@ -78,9 +69,7 @@ class DistributionController extends Controller
 
     public function update(Request $request, $distribution_id)
     {
-        $this->authorize('edit.distributions');
-
-        $distribution = Distribution::findOrFail($distribution_id);
+       $distribution = Distribution::findOrFail($distribution_id);
 
         $validated = $request->validate([
             'batch_id' => 'required|exists:batches,id',
@@ -110,8 +99,6 @@ class DistributionController extends Controller
 
     public function destroy($distribution_id)
     {
-        $this->authorize('delete.distributions');
-
         $distribution = Distribution::findOrFail($distribution_id);
         $distribution->delete();
 

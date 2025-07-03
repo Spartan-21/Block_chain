@@ -12,10 +12,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('batch_id');
             $table->unsignedBigInteger('tester_id'); // user who performs the test
             $table->date('test_date');
-            $table->string('result'); // e.g., passed, failed, or score
-            $table->text('notes')->nullable();
-            $table->string('status')->default('pending'); // e.g., pending, reviewed, approved
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->text('test_result')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

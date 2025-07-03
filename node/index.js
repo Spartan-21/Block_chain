@@ -121,7 +121,14 @@ app.post('/processings', async (req, res) => {
 
 app.post('/quality-tests', async (req, res) => {
   try {
-    const { batchId, testType, results, score, testerName, passed, metamaskAddress } = req.body;
+    console.log("Received quality test request:", req);
+    const batchId = req['body']['batch_id'];
+    const testType = req['body']['test_type'];
+    const results = req['body']['test_result'];
+    const score = req['body']['score'];
+    const testerName = req['body']['tester_name'];
+    const passed = true;
+    const metamaskAddress = req['body']['metamask_address'];
     const receipt = await contract.methods.addQualityTest(
       batchId, testType, results, score, testerName, passed
     ).send({ from: getSenderAddress(metamaskAddress) });
@@ -133,7 +140,12 @@ app.post('/quality-tests', async (req, res) => {
 
 app.post('/shipments', async (req, res) => {
   try {
-    const { batchId, destination, expectedDeliveryDate, transportMethod, trackingNumber, metamaskAddress } = req.body;
+    const batchId = req['body']['batch_id'];
+    const destination = req['body']['destination'];
+    const expectedDeliveryDate = parseInt(req['body']['expected_delivery_date'] || new Date());
+    const transportMethod = req['body']['transport_method'];
+    const trackingNumber = req['body']['tracking_number'];
+    const metamaskAddress = req['body']['metamask_address'];
 
     // Convert expectedDeliveryDate string to uint256 timestamp
     const deliveryTimestamp = Math.floor(new Date(expectedDeliveryDate).getTime() / 1000);

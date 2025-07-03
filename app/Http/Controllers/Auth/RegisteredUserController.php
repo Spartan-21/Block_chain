@@ -57,6 +57,7 @@ class RegisteredUserController extends Controller
             'firstname' => $request->firstname,
             'surname' => $request->surname,
             'email' => $request->email,
+            'metamask_address' => $request->metamask_address,
             'password' => Hash::make($request->password),
         ]);
 

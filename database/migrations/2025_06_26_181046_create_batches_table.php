@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('batches', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->string('id')->primary();
+            $table->increments('id')->unsigned();
             $table->string('farm_id')->index();
             $table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
             $table->string('coffee_type');

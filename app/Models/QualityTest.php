@@ -6,7 +6,7 @@ use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Quality extends Model
+class QualityTest extends Model
 {
     use Uuids;
 
@@ -31,9 +31,9 @@ class Quality extends Model
      */
     protected $fillable = [
         'batch_id',
-        'tester_name',
+        'tester_id',
         'test_date',
-        'result_summary',
+        'test_result',
     ];
 
     /**

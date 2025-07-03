@@ -14,23 +14,24 @@ class QualityController extends Controller
     public function index()
     {
         $qualityTests = QualityTest::all();
-        return view('quality.index', compact('qualityTests'));
+        
+        return view('backend.quality.index', compact('qualityTests'));
     }
 
     public function create()
     {
         $batches = Batch::all();
-        return view('quality.create', compact('batches'));
+        return view('backend.quality.create', compact('batches'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'batch_id'    => 'required|exists:batches,id',
-            'tester_id'   => 'nullable|integer',
             'test_date'   => 'required|date',
+            'test_type'   => 'required',
+            'score'   => 'required',
             'test_result' => 'required|string|max:255',
-            'comments'    => 'nullable|string|max:1000',
         ]);
 
         $metamask_address = Auth::user()->metamask_address ?? null;
@@ -38,14 +39,18 @@ class QualityController extends Controller
             return back()->with('error', 'Metamask address is required to interact with blockchain.');
         }
 
-        $payload = array_merge($validated, ['metamask_address' => $metamask_address]);
+        $payload = array_merge($validated, [
+            'metamask_address' => $metamask_address, 
+            'tester_id' => Auth::user()->id,
+            'tester_name' => Auth::user()->firstname . ' ' . Auth::user()->lastname,
+        ]);
 
         // Example blockchain bridge call
-        $response = Http::post('http://localhost:3000/record-quality-test', $payload);
+        $response = Http::post('http://localhost:3000/quality-tests', $payload);
 
         if ($response->successful()) {
-            QualityTest::create($validated);
-            return redirect()->route('quality.index')->with('success', 'Quality test recorded and sent to blockchain!');
+            // QualityTest::create($validated);
+            return redirect()->route('quality')->with('success', 'Quality test recorded and sent to blockchain!');
         } else {
             return back()->with('error', 'Blockchain error: ' . $response->json('error'));
         }

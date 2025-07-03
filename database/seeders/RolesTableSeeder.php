@@ -47,18 +47,8 @@ class RolesTableSeeder extends Seeder
                 'description' => 'Distribution Role',
                 'level'       => 0,
             ],
-            [
-                'name'        => 'Distributor',
-                'slug'        => 'distributor',
-                'description' => 'Distributor Role',
-                'level'       => 0,
-            ],
-            [
-                'name'        => 'Quality Tester',
-                'slug'        => 'quality.tester',
-                'description' => 'Quality Tester Role',
-                'level'       => 0,
-            ],
+           
+    
             [
                 'name'        => 'End User',
                 'slug'        => 'end.user',

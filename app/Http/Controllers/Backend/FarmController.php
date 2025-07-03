@@ -6,6 +6,7 @@ use App\Models\Farm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class FarmController extends Controller
 {
@@ -96,5 +97,39 @@ class FarmController extends Controller
         $farm = Farm::findOrFail($farm_id);
         $farm->delete();
         return redirect()->route('farms')->with('success', 'Farm deleted successfully!');
+    }
+
+    /**
+     * Send farm data to Node.js bridge to register on blockchain.
+     */
+    public function storeToBlockchain(Request $request)
+    {
+        $validated = $request->validate([
+            'farmerName' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'region' => 'required|string|max:255',
+            'altitude' => 'required|numeric',
+            'farmSize' => 'required|numeric',
+            'coordinates' => 'required|string|max:255',
+        ]);
+
+        try {
+            $response = Http::post(config('services.blockchain.url') . '/farms', array_merge($validated, [
+                'metamaskAddress' => config('services.blockchain.sender')
+            ]));
+
+            if ($response->successful()) {
+                $data = $response->json();
+                return redirect()->back()->with([
+                    'success' => 'Farm registered on blockchain!',
+                    'txHash' => $data['txHash'] ?? null,
+                    'farmId' => $data['farmId'] ?? null,
+                ]);
+            } else {
+                return redirect()->back()->withErrors('Blockchain registration failed: ' . $response->body());
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error connecting to blockchain service: ' . $e->getMessage());
+        }
     }
 }
