@@ -79,6 +79,117 @@ Route::middleware('auth')->prefix('auth')->group(function () {
 
     });
 
+    // 🏭 Processing management
+    Route::prefix('processing')->group(function () {
+
+        Route::get('/create', [App\Http\Controllers\Backend\ProcessingController::class, 'create'])
+            ->name('processing.create')
+            ->middleware('permission:create.processing');
+
+        Route::post('/create', [App\Http\Controllers\Backend\ProcessingController::class, 'store'])
+            ->name('processing.store')
+            ->middleware('permission:create.processing');
+
+        Route::prefix('{processing_id}')->group(function () {
+
+            Route::put('/update', [App\Http\Controllers\Backend\ProcessingController::class, 'update'])
+                ->name('processing.update')
+                ->middleware('permission:edit.processing');
+
+            Route::get('/edit', [App\Http\Controllers\Backend\ProcessingController::class, 'edit'])
+                ->name('processing.edit')
+                ->middleware('permission:edit.processing');
+
+            Route::delete('/', [App\Http\Controllers\Backend\ProcessingController::class, 'destroy'])
+                ->name('processing.destroy')
+                ->middleware('permission:delete.processing');
+
+            Route::get('/', [App\Http\Controllers\Backend\ProcessingController::class, 'show'])
+                ->name('processing.view')
+                ->middleware('permission:view.processing');
+
+        });
+
+        Route::get('/', [App\Http\Controllers\Backend\ProcessingController::class, 'index'])
+            ->name('processing.index')
+            ->middleware('permission:view.processing');
+
+    });
+
+    // 🚚 Distribution management
+    Route::prefix('distributions')->group(function () {
+
+        Route::get('/create', [App\Http\Controllers\Backend\DistributionController::class, 'create'])
+            ->name('distributions.create')
+            ->middleware('permission:create.distribution');
+
+        Route::post('/create', [App\Http\Controllers\Backend\DistributionController::class, 'store'])
+            ->name('distributions.store')
+            ->middleware('permission:create.distribution');
+
+        Route::prefix('{distribution_id}')->group(function () {
+
+            Route::put('/update', [App\Http\Controllers\Backend\DistributionController::class, 'update'])
+                ->name('distributions.update')
+                ->middleware('permission:edit.distribution');
+
+            Route::get('/edit', [App\Http\Controllers\Backend\DistributionController::class, 'edit'])
+                ->name('distributions.edit')
+                ->middleware('permission:edit.distribution');
+
+            Route::delete('/', [App\Http\Controllers\Backend\DistributionController::class, 'destroy'])
+                ->name('distributions.destroy')
+                ->middleware('permission:delete.distribution');
+
+            Route::get('/', [App\Http\Controllers\Backend\DistributionController::class, 'show'])
+                ->name('distributions.view')
+                ->middleware('permission:view.distribution');
+
+        });
+
+        Route::get('/', [App\Http\Controllers\Backend\DistributionController::class, 'index'])
+            ->name('distributions')
+            ->middleware('permission:view.distribution');
+
+    });
+
+    // 🧪 Quality Control management
+    Route::prefix('quality')->group(function () {
+
+        Route::get('/create', [App\Http\Controllers\Backend\QualityController::class, 'create'])
+            ->name('quality.create')
+            ->middleware('permission:create.quality.control');
+
+        Route::post('/create', [App\Http\Controllers\Backend\QualityController::class, 'store'])
+            ->name('quality.store')
+            ->middleware('permission:create.quality.control');
+
+        Route::prefix('{quality_id}')->group(function () {
+
+            Route::put('/update', [App\Http\Controllers\Backend\QualityController::class, 'update'])
+                ->name('quality.update')
+                ->middleware('permission:edit.quality.control');
+
+            Route::get('/edit', [App\Http\Controllers\Backend\QualityController::class, 'edit'])
+                ->name('quality.edit')
+                ->middleware('permission:edit.quality.control');
+
+            Route::delete('/', [App\Http\Controllers\Backend\QualityController::class, 'destroy'])
+                ->name('quality.destroy')
+                ->middleware('permission:delete.quality.control');
+
+            Route::get('/', [App\Http\Controllers\Backend\QualityController::class, 'show'])
+                ->name('quality.view')
+                ->middleware('permission:view.quality.control');
+
+        });
+
+        Route::get('/', [App\Http\Controllers\Backend\QualityController::class, 'index'])
+            ->name('quality')
+            ->middleware('permission:view.quality.control');
+
+    });
+
     // 🔑 Permissions
     Route::get('/permissions', [App\Http\Controllers\Backend\AccessControl\PermissionsController::class, 'index'])
         ->name('permissions')

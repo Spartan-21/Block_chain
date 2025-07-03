@@ -15,7 +15,6 @@ class RolesTableSeeder extends Seeder
     {
         /*
          * Role Types
-         *
          */
         $RoleItems = [
             [
@@ -31,15 +30,27 @@ class RolesTableSeeder extends Seeder
                 'level'       => 0,
             ],
             [
-                'name'        => 'Distributor',
-                'slug'        => 'distributor',
-                'description' => 'Distributor Role',
-                'level'       => 0,
-            ],
-            [
                 'name'        => 'Processor',
                 'slug'        => 'processor',
                 'description' => 'Processor Role',
+                'level'       => 0,
+            ],
+            [
+                'name'        => 'Quality Control',
+                'slug'        => 'quality.control',   // dot here
+                'description' => 'Quality Control Role',
+                'level'       => 0,
+            ],
+            [
+                'name'        => 'Distribution',
+                'slug'        => 'distribution',
+                'description' => 'Distribution Role',
+                'level'       => 0,
+            ],
+            [
+                'name'        => 'Distributor',
+                'slug'        => 'distributor',
+                'description' => 'Distributor Role',
                 'level'       => 0,
             ],
             [
@@ -58,12 +69,11 @@ class RolesTableSeeder extends Seeder
 
         /*
          * Add Role Items
-         *
          */
         foreach ($RoleItems as $RoleItem) {
             $newRoleItem = config('roles.models.role')::where('slug', '=', $RoleItem['slug'])->first();
             if ($newRoleItem === null) {
-                $newRoleItem = config('roles.models.role')::create([
+                config('roles.models.role')::create([
                     'name'          => $RoleItem['name'],
                     'slug'          => $RoleItem['slug'],
                     'description'   => $RoleItem['description'],

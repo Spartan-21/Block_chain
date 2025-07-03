@@ -6,44 +6,87 @@ use Illuminate\Database\Seeder;
 
 class ConnectRelationshipsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        /**
-         * Get Available Permissions.
-         */
         $permissions = config('roles.models.permission')::all();
-        $farmerPermissions = [
-            'view.farms',
-            'create.farms',
-            'edit.farms',
-            'delete.farms',
-            'view.batches',
-            'create.batches',
-            'edit.batches',
-            'delete.batches',
-        ];
-        $processorPermissions = [
-            'view.processing',
+
+        $rolePermissions = [
+            'admin' => $permissions->pluck('slug')->toArray(),
+
+            'farmer' => [
+                'view.farms',
+                'create.farms',
+                'edit.farms',
+                'delete.farms',
+                'view.batches',
+                'create.batches',
+                'edit.batches',
+                'delete.batches',
+                'view.processing',
+            ],
+
+            'processor' => [
+                'view.processing',
+                'create.processing',
+                'edit.processing',
+                'show.processing',
+            ],
+
+            'quality.control' => [   // dot slug
+                'view.processing',
+                'show.processing',
+                'edit.processing',
+
+                // Quality control specific permissions:
+                'view.quality.control',
+                'create.quality.control',
+                'edit.quality.control',
+                'delete.quality.control',
+                'show.quality.control',
+            ],
+
+            'distribution' => [
+                'view.distribution',
+                'show.distribution',
+                'create.distribution',
+                'edit.distribution',
+                'delete.distribution',
+                'view.processing',
+                'show.processing',
+            ],
         ];
 
-        /**
-         * Attach Permissions to Roles.
-         */
-        $roleAdmin = config('roles.models.role')::where('slug', '=', 'admin')->first();
-        $roleFarmer = config('roles.models.role')::where('slug', '=', 'farmer')->first();
-        $roleProcessor = config('roles.models.role')::where('slug', '=', 'processor')->first();
-        foreach ($permissions as $permission) {
-            $roleAdmin->attachPermission($permission);
-            if (in_array($permission->slug, $farmerPermissions)) {
-                $roleFarmer->attachPermission($permission);
+        foreach ($rolePermissions as $roleSlug => $permissionSlugs) {
+            $role = config('roles.models.role')::where('slug', $roleSlug)->first();
+
+            if (!$role) {
+                $this->command->warn("Role '{$roleSlug}' not found!");
+                continue;
             }
-            if (in_array($permission->slug, $processorPermissions)) {
-                $roleProcessor->attachPermission($permission);
+
+            // Detach all current permissions before attaching new ones
+            $role->detachAllPermissions();
+
+            foreach ($permissions as $permission) {
+                if (in_array($permission->slug, $permissionSlugs)) {
+                    $role->attachPermission($permission);
+                }
+            }
+
+            $this->command->info("Attached permissions to role '{$roleSlug}'");
+        }
+
+        // ✅ Fix here: attach admin role by model, NOT by slug string
+        if ($adminUser = config('roles.models.defaultUser')::first()) {
+            $adminUser->detachAllRoles();
+
+            $adminRole = config('roles.models.role')::where('slug', 'admin')->first();
+
+            if ($adminRole) {
+                $adminUser->attachRole($adminRole);
+                $this->command->info("Attached admin role to first user");
+            } else {
+                $this->command->warn("Admin role not found, cannot attach to first user");
             }
         }
     }
